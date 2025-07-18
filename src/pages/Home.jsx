@@ -1,100 +1,125 @@
+"use client"
+
 import { Link } from "react-router-dom"
-import { ArrowRightIcon, HeartIcon, ShieldCheckIcon, UserGroupIcon } from "@heroicons/react/24/outline"
+import { useAuth } from "../context/AuthContext"
 
 export default function Home() {
+  const { user } = useAuth()
+
   const features = [
     {
-      icon: HeartIcon,
       title: "Mental Health Assessment",
-      description: "Take our comprehensive assessment to understand your mental health status.",
+      description: "Take scientifically-backed assessments to understand your mental wellness",
+      icon: "📊",
+      link: "/assessment",
     },
     {
-      icon: ShieldCheckIcon,
-      title: "Privacy Protected",
-      description: "Your data is completely private and secure. We never share your information.",
+      title: "Personalized Dashboard",
+      description: "Track your progress and view your mental health journey over time",
+      icon: "📈",
+      link: "/dashboard",
     },
     {
-      icon: UserGroupIcon,
-      title: "Professional Resources",
-      description: "Access curated resources and professional help when you need it most.",
+      title: "Expert Resources",
+      description: "Access curated resources from licensed mental health professionals",
+      icon: "📚",
+      link: "/resources",
     },
   ]
 
   return (
-    <div className="bg-white">
-   
-      <div className="relative bg-gradient-to-r from-blue-600 to-purple-700">
-        <div className="absolute inset-0 bg-black opacity-20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Your Mental Health
-              <span className="block text-yellow-300">Matters</span>
-            </h1>
-            <p className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto">
-              Take the first step towards better mental health with our comprehensive assessment tool. Get personalized
-              insights and professional resources.
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="relative z-10 pb-8 bg-gradient-to-br from-blue-50 to-indigo-100 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+            <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+              <div className="sm:text-center lg:text-left">
+                <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+                  <span className="block xl:inline">Welcome back,</span>{" "}
+                  <span className="block text-blue-600 xl:inline">{user?.name || "User"}!</span>
+                </h1>
+                <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                  Continue your mental wellness journey with personalized assessments, expert resources, and progress
+                  tracking. Your mental health matters, and we're here to support you every step of the way.
+                </p>
+                <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                  <div className="rounded-md shadow">
+                    <Link
+                      to="/assessment"
+                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10 transition-colors duration-200"
+                    >
+                      Take Assessment
+                    </Link>
+                  </div>
+                  <div className="mt-3 sm:mt-0 sm:ml-3">
+                    <Link
+                      to="/dashboard"
+                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 md:py-4 md:text-lg md:px-10 transition-colors duration-200"
+                    >
+                      View Dashboard
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </div>
+        </div>
+        <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+          <div className="h-56 w-full bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 sm:h-72 md:h-96 lg:w-full lg:h-full flex items-center justify-center">
+            <div className="text-white text-6xl">🧠</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Features Section */}
+      <div className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="lg:text-center">
+            <h2 className="text-base text-blue-600 font-semibold tracking-wide uppercase">Features</h2>
+            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+              Your Mental Wellness Toolkit
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/assessment"
-                className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-white hover:bg-gray-50 transition-colors"
-              >
-                Start Assessment
-                <ArrowRightIcon className="ml-2 h-5 w-5" />
-              </Link>
-              <Link
-                to="/resources"
-                className="inline-flex items-center px-8 py-3 border-2 border-white text-base font-medium rounded-md text-white hover:bg-white hover:text-blue-700 transition-colors"
-              >
-                View Resources
-              </Link>
+            <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+              Comprehensive tools and resources designed to support your mental health journey.
+            </p>
+          </div>
+
+          <div className="mt-10">
+            <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
+              {features.map((feature, index) => (
+                <Link
+                  key={index}
+                  to={feature.link}
+                  className="relative p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 border border-gray-200 hover:border-blue-300"
+                >
+                  <div>
+                    <div className="text-4xl mb-4">{feature.icon}</div>
+                    <h3 className="text-lg leading-6 font-medium text-gray-900">{feature.title}</h3>
+                    <p className="mt-2 text-base text-gray-500">{feature.description}</p>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </div>
       </div>
 
-     
-      <div className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose MindCare?</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We provide a safe, confidential, and professional approach to mental health assessment.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="text-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
-              >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                  <feature.icon className="h-8 w-8 text-blue-600" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-     
+      {/* CTA Section */}
       <div className="bg-blue-600">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">Ready to Take Control of Your Mental Health?</h2>
-            <p className="text-xl text-blue-100 mb-8">Start your journey towards better mental wellness today.</p>
-            <Link
-              to="/assessment"
-              className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 transition-colors"
-            >
-              Begin Assessment
-              <ArrowRightIcon className="ml-2 h-5 w-5" />
-            </Link>
-          </div>
+        <div className="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+            <span className="block">Ready to start your journey?</span>
+          </h2>
+          <p className="mt-4 text-lg leading-6 text-blue-200">
+            Take the first step towards better mental health with our comprehensive assessment.
+          </p>
+          <Link
+            to="/assessment"
+            className="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 sm:w-auto transition-colors duration-200"
+          >
+            Start Assessment
+          </Link>
         </div>
       </div>
     </div>

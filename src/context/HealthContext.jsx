@@ -5,9 +5,10 @@ import { createContext, useContext, useReducer, useEffect } from "react"
 const HealthContext = createContext()
 
 const initialState = {
-  user: null,
-  assessmentResults: [],
+  assessments: [],
   currentAssessment: null,
+  resources: [],
+  appointments: [],
   loading: false,
   error: null,
 }
@@ -18,14 +19,15 @@ function healthReducer(state, action) {
       return { ...state, loading: action.payload }
     case "SET_ERROR":
       return { ...state, error: action.payload, loading: false }
-    case "SET_USER":
-      return { ...state, user: action.payload }
-    case "ADD_ASSESSMENT_RESULT":
+    case "ADD_ASSESSMENT":
       return {
         ...state,
-        assessmentResults: [...state.assessmentResults, action.payload],
+        assessments: [...state.assessments, action.payload],
         currentAssessment: action.payload,
+        loading: false,
       }
+    case "SET_CURRENT_ASSESSMENT":
+      return { ...state, currentAssessment: action.payload }
     case "CLEAR_ERROR":
       return { ...state, error: null }
     default:
@@ -37,24 +39,49 @@ export function HealthProvider({ children }) {
   const [state, dispatch] = useReducer(healthReducer, initialState)
 
   useEffect(() => {
-
-    const savedResults = localStorage.getItem("assessmentResults")
-    if (savedResults) {
-      const results = JSON.parse(savedResults)
-      results.forEach((result) => {
-        dispatch({ type: "ADD_ASSESSMENT_RESULT", payload: result })
-      })
+    // Load saved assessments from localStorage
+    const savedAssessments = localStorage.getItem("mindcare_assessments")
+    if (savedAssessments) {
+      try {
+        const assessments = JSON.parse(savedAssessments)
+        assessments.forEach((assessment) => {
+          dispatch({ type: "ADD_ASSESSMENT", payload: assessment })
+        })
+      } catch (error) {
+        console.error("Error loading assessments:", error)
+      }
     }
   }, [])
 
-  useEffect(() => {
-   
-    if (state.assessmentResults.length > 0) {
-      localStorage.setItem("assessmentResults", JSON.stringify(state.assessmentResults))
+  const addAssessment = (assessment) => {
+    const newAssessment = {
+      ...assessment,
+      id: Date.now(),
+      date: new Date().toISOString(),
     }
-  }, [state.assessmentResults])
 
-  return <HealthContext.Provider value={{ state, dispatch }}>{children}</HealthContext.Provider>
+    dispatch({ type: "ADD_ASSESSMENT", payload: newAssessment })
+
+    // Save to localStorage
+    const updatedAssessments = [...state.assessments, newAssessment]
+    localStorage.setItem("mindcare_assessments", JSON.stringify(updatedAssessments))
+  }
+
+  const clearError = () => {
+    dispatch({ type: "CLEAR_ERROR" })
+  }
+
+  return (
+    <HealthContext.Provider
+      value={{
+        ...state,
+        addAssessment,
+        clearError,
+      }}
+    >
+      {children}
+    </HealthContext.Provider>
+  )
 }
 
 export function useHealth() {

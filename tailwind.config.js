@@ -27,6 +27,16 @@ export default {
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+          50: "#faf5ff",
+          100: "#f3e8ff",
+          200: "#e9d5ff",
+          300: "#d8b4fe",
+          400: "#c084fc",
+          500: "#a855f7",
+          600: "#9333ea",
+          700: "#7c3aed",
+          800: "#6b21a8",
+          900: "#581c87",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -92,25 +102,27 @@ export default {
         xl: "0.75rem",
         "2xl": "1rem",
         "3xl": "1.5rem",
+        "4xl": "2rem",
       },
       fontFamily: {
-        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
       },
       animation: {
         "slide-in": "slideIn 0.5s ease-out",
         "slide-in-bounce": "slideInBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)",
-        "fade-in": "fadeIn 0.3s ease-out",
+        "fade-in": "fadeIn 0.5s ease-in",
         "bounce-in": "bounceIn 0.6s ease-out",
-        float: "float 3s ease-in-out infinite",
+        float: "float 6s ease-in-out infinite",
         wiggle: "wiggle 1s ease-in-out",
         "pulse-ring": "pulseRing 2s infinite",
         "modal-slide-in": "modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
         spin: "spin 1s linear infinite",
+        pulse: "pulse 2s infinite",
       },
       keyframes: {
         slideIn: {
-          "0%": { transform: "translateX(100%)", opacity: "0" },
-          "100%": { transform: "translateX(0)", opacity: "1" },
+          "0%": { transform: "translateX(-20px)", opacity: "0" },
+          to: { transform: "translateX(0)", opacity: "1" },
         },
         slideInBounce: {
           "0%": { transform: "translateX(100%) scale(0.8)", opacity: "0" },
@@ -118,8 +130,8 @@ export default {
           "100%": { transform: "translateX(0) scale(1)", opacity: "1" },
         },
         fadeIn: {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
+          from: { opacity: "0", transform: "translateY(20px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
         },
         bounceIn: {
           "0%": { transform: "scale(0.3)", opacity: "0" },
@@ -133,7 +145,7 @@ export default {
         },
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-10px)" },
+          "50%": { transform: "translateY(-20px)" },
         },
         wiggle: {
           "0%, 100%": { transform: "rotate(0deg)" },
@@ -148,12 +160,17 @@ export default {
           "0%": { transform: "rotate(0deg)" },
           "100%": { transform: "rotate(360deg)" },
         },
+        pulse: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
+        },
       },
       boxShadow: {
         soft: "0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)",
         medium: "0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
         strong: "0 10px 40px -10px rgba(0, 0, 0, 0.15), 0 20px 25px -5px rgba(0, 0, 0, 0.1)",
         "3xl": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+        large: "0 10px 40px -10px rgba(0, 0, 0, 0.1), 0 20px 25px -5px rgba(0, 0, 0, 0.04)",
       },
       backdropBlur: {
         xs: "2px",
@@ -161,6 +178,10 @@ export default {
       scale: {
         102: "1.02",
         105: "1.05",
+      },
+      spacing: {
+        18: "4.5rem",
+        88: "22rem",
       },
     },
   },
